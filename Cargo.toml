@@ -1,0 +1,19 @@
+[package]
+name = "rust_backend"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+[[bin]]
+path = "src/main.rs"
+name = "rust_backend"
+
+
+[dev-dependencies]
+
+[dependencies]
+
+
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "linker=clang", "-C", "link-arg=-fuse-ld=lld"]
