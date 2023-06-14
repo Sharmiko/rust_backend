@@ -13,13 +13,16 @@ name = "rust_backend"
 [dev-dependencies]
 
 [dependencies]
+env_logger = "0.10.0"
 secrecy = { version = "0.8", features = ["serde"] }
 actix-web = "4.3.1"
 serde = { version = "1", features = ["derive"]}
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 uuid = { version = "1.3.4", features = ["v4"] }
 config = "0.11"
-chrono = "0.4.26"
+chrono = { version = "0.4.26", features = ["serde"] }
+bigdecimal = { version = "0.3.0", features = ["serde"] }
+
 
 [dependencies.sqlx]
 version = "0.6.3"
@@ -30,7 +33,8 @@ features = [
     "postgres",
     "uuid",
     "chrono",
-    "migrate"
+    "migrate",
+    "bigdecimal"
 ]
 
 [target.x86_64-unknown-linux-gnu]
