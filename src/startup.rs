@@ -18,6 +18,6 @@ pub fn run(
     })
         .listen(listener)?
         .run();
-    println!("Hello");
+
     Ok(server)
 }
