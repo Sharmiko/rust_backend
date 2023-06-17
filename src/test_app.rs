@@ -1,7 +1,6 @@
 use std::net::TcpListener;
 
 use uuid::Uuid;
-use actix_web::web::get;
 use secrecy::ExposeSecret;
 use sqlx::{PgConnection, Connection, PgPool, Executor};
 

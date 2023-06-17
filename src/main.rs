@@ -1,7 +1,6 @@
 use std::net::TcpListener;
 
 use sqlx::PgPool;
-use actix_web::web::get;
 use secrecy::ExposeSecret;
 
 use rust_backend::startup::run;
