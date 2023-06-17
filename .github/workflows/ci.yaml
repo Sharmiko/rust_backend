@@ -18,9 +18,5 @@ jobs:
       - name: Run Postgres Container
         run: bash scripts/install_deps.sh && bash scripts/init_db.sh
 
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
       - name: Run tests
         run: cargo test
