@@ -11,12 +11,10 @@ jobs:
     name: Create Database
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
-      
-      - name: Ls
-        run: ls
-      
+
       - name: Run Postgres Container
         run: bash scripts/install_deps.sh && bash scripts/init_db.sh
 
@@ -24,7 +22,5 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
       - name: Run tests
         run: cargo test
