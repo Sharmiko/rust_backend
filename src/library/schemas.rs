@@ -3,7 +3,7 @@ use chrono::serde::ts_seconds;
 use bigdecimal::BigDecimal;
 
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, serde::Serialize, Debug)]
 pub struct Book {
     pub author: String,
     pub title: String,

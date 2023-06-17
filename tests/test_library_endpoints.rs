@@ -5,6 +5,8 @@ use bigdecimal::BigDecimal;
 
 use rust_backend::test_app::TestApp;
 use rust_backend::configuration::get_configuration;
+use rust_backend::library::crud;
+use rust_backend::library::schemas::Book;
 
 #[tokio::test]
 async fn test_library_book_insert() {
@@ -47,4 +49,47 @@ async fn test_library_book_insert() {
     assert_eq!(record.price, BigDecimal::from_str(&payload.get("price").unwrap().to_string()).unwrap());
     let naive = NaiveDateTime::from_timestamp_opt(payload.get("published_at").unwrap().as_i64().unwrap(), 0).unwrap();
     assert_eq!(record.published_at, DateTime::<Utc>::from_utc(naive, Utc));
+}
+
+
+#[tokio::test]
+async fn test_library_book_list() {
+    let test_app = TestApp::spawn_app().await;
+
+    let configuration = get_configuration().expect("Failed to read configuration");
+    let client = reqwest::Client::new();
+
+    let books = vec![
+        serde_json::json!({
+            "author": "Kafka",
+            "title": "Metamorphosis",
+            "pages": 123,
+            "price": 9.99,
+            "published_at": 1686777831
+        }),
+        serde_json::json!({
+            "author": "Kafka",
+            "title": "The Trial",
+            "pages": 320,
+            "price": 9.99,
+            "published_at": 1686777831
+        }),
+    ];
+
+    for item in books.iter() {
+        let data: Book = serde_json::from_str(&item.to_string()).unwrap();
+        crud::insert_book(&data, &test_app.db_pool).await.expect("Failed to insert data.")
+    }
+
+
+    let response = client
+        .get(&format!("{}/book", &test_app.address))
+        .send()
+        .await
+        .expect("Failed to send request");
+
+    assert_eq!(response.status().as_u16(), 200);
+
+    let results = response.json::<Vec<Book>>().await.expect("Failed to load json");
+    assert_eq!(results.len(), books.len());
 }

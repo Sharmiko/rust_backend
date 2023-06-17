@@ -4,7 +4,7 @@ use sqlx::PgPool;
 use actix_web::{web, App, HttpServer};
 use actix_web::dev::Server;
 
-use crate::library::routes::{add_new_book};
+use crate::library::routes::{add_new_book, list_books};
 
 
 pub fn run(
@@ -18,6 +18,7 @@ pub fn run(
         App::new()
             .app_data(db_pool.clone())
             .service(add_new_book)
+            .service(list_books)
     })
         .listen(listener)?
         .run();

@@ -25,3 +25,17 @@ pub async fn insert_book(data: &Book, pool: &PgPool) -> Result<(), sqlx::Error> 
 
     Ok(())
 }
+
+
+pub async fn list_books(pool: &PgPool) -> Result<Vec<Book>, sqlx::Error> {
+    let result: Vec<Book> = sqlx::query_as!(
+        Book, r#"SELECT author, title, pages, price, published_at FROM books"#
+    )
+        .fetch_all(pool)
+        .await
+        .map_err(|e| {
+            e
+        })?;
+
+    return Ok(result);
+}
