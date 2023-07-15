@@ -27,10 +27,10 @@ bigdecimal = { version = "0.3.0", features = ["serde"] }
 
 
 [dependencies.sqlx]
-version = "0.6.3"
+version = "0.7.1"
 default-features = false
 features = [
-    "runtime-actix-rustls",
+    "runtime-tokio",
     "macros",
     "postgres",
     "uuid",
