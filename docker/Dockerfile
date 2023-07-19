@@ -1,9 +1,22 @@
-# Builder stage
-FROM rust:1.71.0 AS builder
-
+# Chef stage
+FROM lukemathwalker/cargo-chef:latest-rust-1.71.0 as chef
 WORKDIR /app
 
 RUN apt update && apt install lld clang -y
+
+# Planner stage
+FROM chef as planner
+
+COPY . .
+
+RUN cargo chef prepare --recipe-path recipe.json
+
+# Builder stage
+FROM chef as builder
+
+COPY --from=planner /app/recipe.json recipe.json
+
+RUN cargo chef cook --release --recipe-path recipe.json
 
 COPY . .
 
